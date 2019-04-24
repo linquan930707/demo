@@ -49,7 +49,7 @@
                 <version>0.2.3</version>
                 <configuration>
                     <imageName>${project.artifactId}</imageName>
-                    <dockerDirectory>${project.build.directory}/docker</dockerDirectory>
+                    <dockerDirectory>./docker</dockerDirectory>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
