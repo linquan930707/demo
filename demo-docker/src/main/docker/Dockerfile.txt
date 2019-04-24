@@ -2,6 +2,6 @@ FROM java:8
 
 VOLUME /tmp
 ADD demo-docker.jar /opt/demo-docker/
-EXPOSE 8080
+EXPOSE 8087
 WORKDIR /opt/demo-docker/
 CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-Xms512m", "-Xmx1g", "-jar", "demo-docker.jar"]
