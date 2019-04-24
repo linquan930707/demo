@@ -1,0 +1,23 @@
+
+---
+spring:
+  profiles: dev
+  thymeleaf.cache: false
+  application:
+    name: demo-docker
+
+server:
+  port: 8080
+
+
+
+
+---
+spring:
+  profiles: test
+  thymeleaf.cache: false
+  application:
+    name: demo-docker
+
+server:
+  port: 8081
