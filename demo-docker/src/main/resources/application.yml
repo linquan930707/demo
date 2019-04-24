@@ -12,6 +12,7 @@ server:
 
 
 
+
 ---
 spring:
   profiles: test
