@@ -3,14 +3,15 @@ package com.example.controller;
 import com.example.base.RedisCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.util.calendar.CalendarUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -69,6 +70,31 @@ public class BaseController {
         redisTemplate.opsForList().leftPushAll("listone",obj);
         redisTemplate.opsForList().remove("listone",1,"bbb");
         return  redisTemplate.opsForList().range("listone",3,3);
+    }
+    @GetMapping("/3")
+    public  Set demo3(){
+        Set<ZSetOperations.TypedTuple<String>> sets = new HashSet<>();
+        ZSetOperations.TypedTuple<String> aaa = new DefaultTypedTuple<String>("aaa",new Random().nextDouble());
+        ZSetOperations.TypedTuple<String> bbb = new DefaultTypedTuple<String>("bbb",new Random().nextDouble());
+        sets.add(aaa);
+        sets.add(bbb);
+        redisTemplate.opsForZSet().add("zsetRedis",sets);
+
+
+        Set<ZSetOperations.TypedTuple<Object>>zst =  redisTemplate.opsForZSet().reverseRange("zsetRedis",0,2);
+        Iterator<ZSetOperations.TypedTuple<Object>> iterator = zst.iterator();
+        while (iterator.hasNext())
+        {
+            ZSetOperations.TypedTuple<Object> typedTuple = iterator.next();
+            System.out.println("value:" + typedTuple.getValue() + "score:" + typedTuple.getScore());
+        }
+
+        return null;
+
+
+
+
+
     }
 
 
