@@ -182,8 +182,8 @@ public class RedisUtil<T> {
         return redisTemplate.opsForSet().isMember(k,o);
     }
     //返回两个key 中的交集 (K key, K otherKey)/ (K key, Collection<K> otherKeys);
-    //ntersectAndStore(K key, Collection<K> otherKeys, K destKey);
-    // Set<V> union(K key, K otherKey);/Set<V> union(K key, Collection<K> otherKeys);/Long unionAndStore(K key, K otherKey, K destKey);/ unionAndStore(K key, Collection<K> otherKeys, K destKey);
+    //交集intersectAndStore(K key, Collection<K> otherKeys, K destKey);
+    //---合集 Set<V> union(K key, K otherKey);/Set<V> union(K key, Collection<K> otherKeys);/Long unionAndStore(K key, K otherKey, K destKey);/ unionAndStore(K key, Collection<K> otherKeys, K destKey);
     public Set intersect(String k1,String k2){
         return redisTemplate.opsForSet().intersect(k1,k2);
     }
