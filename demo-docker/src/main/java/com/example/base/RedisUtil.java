@@ -190,6 +190,14 @@ public class RedisUtil<T> {
 
 
 
+    /////===========================================ZSet======================================================
+
+    public void reverseRange(String k1,Long start,Long end){
+        redisTemplate.opsForZSet().reverseRange(k1,start,end);
+    }
+
+
+
 
 
 
