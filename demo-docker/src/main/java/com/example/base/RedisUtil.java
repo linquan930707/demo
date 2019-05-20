@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * lusq
@@ -23,9 +22,9 @@ public class RedisUtil<T> {
     }
 
     /**
-     * =====================================================================
+     * ===================================List==================================
      */
-    //返回存储在键中的列表的指定元素。偏移开始和停止是基于零的索引，其中0是列表的第一个元素（列表的头部），1是下一个元素
+    //返回存储在键中的列表的指定元素。start-开始下标，end-结束的下标
     public List rangeList(String key, Integer start, Integer end){
         return  redisTemplate.opsForList().range(key,start,end);
     }
@@ -65,12 +64,34 @@ public class RedisUtil<T> {
         return redisTemplate.opsForList().size(key);
     }
 
+    /**
+     *
+     * @param key
+     * @param index 第几个
+     * @param val  删除的值
+     */
+    public void remove(String key,Long index,String val){
+        redisTemplate.opsForList().remove(key,index,val);
+    }
+
+    /**
+     * 从左边取出第一个值，key列表删除该值
+     * @param key
+     * @return
+     */
+    public Object leftPop(String key){
+        return redisTemplate.opsForList().leftPop(key);
+    }
+    //用于移除列表的最后一个元素，并将该元素添加到另一个列表并返回。
+    public Object rightPopAndLeftPush(String sourceKey,String targetKey){
+        return redisTemplate.opsForList().rightPopAndLeftPush(sourceKey,targetKey);
+    }
 
 
 
 
     /**
-     * ===================================================================================
+     * =======================================String============================================
      */
     //设置键的字符串值并返回其旧值
     public Object getAndSetVal(String key,Object val){
@@ -80,10 +101,7 @@ public class RedisUtil<T> {
     public List<T>multiGet(List<String>key){
         return redisTemplate.opsForValue().multiGet(key);
     }
-    //取出值并加val
-    public Long increment(String key,Long val){
-        return redisTemplate.opsForValue().increment(key,val);
-    }
+
     //如果有key 则val追加。如果key无，则将val赋值
     public Integer append(String key,String  val){
         return  redisTemplate.opsForValue().append(key,val);
@@ -98,6 +116,56 @@ public class RedisUtil<T> {
         redisTemplate.opsForValue().set(key,val);
     }
 
+    //在原来的值的基础上加一并返回值
+    public Long increment(String key,Long val){
+        return redisTemplate.opsForValue().increment(key,val);
+    }
+
+
+
+    //=========================================Hash==================================================
+
+    public void putHash(String k1,String k2,String val){
+        redisTemplate.opsForHash().put(k1,k2,val);
+    }
+
+    public void putHashAll(String key, HashMap map){
+        redisTemplate.opsForHash().putAll(key,map);
+    }
+
+    public void delete(String key,String...hashKey){
+        redisTemplate.opsForHash().delete(key,hashKey);
+    }
+    //获取整个hash的值
+    public Map entries(String key){
+        return redisTemplate.opsForHash().entries(key);
+    }
+
+    public Object getKey(String k1,String k2){
+        return redisTemplate.opsForHash().get(k1,k2);
+    }
+
+    //获取key中指定hash字段的值 返回list
+    public List multiGet(String key, Collection collection){
+        return  redisTemplate.opsForHash().multiGet(key,collection);
+    }
+
+    public Long incrementHashVal(String k1,String k2,Long v){
+        return redisTemplate.opsForHash().increment(k1,k2,v);
+    }
+
+    //put / putAll
+    public void putAllHash(String key,Map map){
+        redisTemplate.opsForHash().putAll(key,map);
+    }
+
+    //当hash不存在时候设置值返回true,当不存在时候不设置值返回false
+    public Boolean putIfAbsent(String k1,String k2,Map map){
+        return redisTemplate.opsForHash().putIfAbsent(k1,k2,map);
+    }
+
+
+    //=================================SET=============================================
 
 
 

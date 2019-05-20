@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -47,10 +49,26 @@ public class BaseController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        return redisTemplate.opsForValue().setIfAbsent("123","456")==true?"true":"false";
+    //    return redisTemplate.opsForValue().setIfAbsent("123","456")==true?"true":"false";
       //  return  redisutil.setIfAbsent(key,val);
        /* return (String) redisutil.getCacheObject("hhh");*/
 
+
+
+        return redisTemplate.opsForValue().increment("incrementKey",1).toString();
+
+    }
+
+    @GetMapping("/2")
+    public List demo2(){
+
+        List<Object>obj = new ArrayList<>();
+        obj.add("aaa");
+        obj.add("bbb");
+        obj.add("ccc");
+        redisTemplate.opsForList().leftPushAll("listone",obj);
+        redisTemplate.opsForList().remove("listone",1,"bbb");
+        return  redisTemplate.opsForList().range("listone",3,3);
     }
 
 
