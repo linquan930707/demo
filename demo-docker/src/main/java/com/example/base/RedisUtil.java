@@ -116,7 +116,7 @@ public class RedisUtil<T> {
         redisTemplate.opsForValue().set(key,val);
     }
 
-    //在原来的值的基础上加一并返回值
+    //在原来的值的基础上加val并返回加之后的值
     public Long increment(String key,Long val){
         return redisTemplate.opsForValue().increment(key,val);
     }
@@ -166,6 +166,27 @@ public class RedisUtil<T> {
 
 
     //=================================SET=============================================
+
+    public Long add(String k,Object...v){
+        return redisTemplate.opsForSet().add(k,v);
+    }
+
+    public Long remove(String k,Object...v){
+        return redisTemplate.opsForSet().remove(k,v);
+    }
+    //移除并返回集合中的一个随机元素
+    public Object pop(String k){
+        return redisTemplate.opsForSet().pop(k);
+    }
+    public Boolean isMember(String k,Object o){
+        return redisTemplate.opsForSet().isMember(k,o);
+    }
+    //返回两个key 中的交集 (K key, K otherKey)/ (K key, Collection<K> otherKeys);
+    //ntersectAndStore(K key, Collection<K> otherKeys, K destKey);
+    // Set<V> union(K key, K otherKey);/Set<V> union(K key, Collection<K> otherKeys);/Long unionAndStore(K key, K otherKey, K destKey);/ unionAndStore(K key, Collection<K> otherKeys, K destKey);
+    public Set intersect(String k1,String k2){
+        return redisTemplate.opsForSet().intersect(k1,k2);
+    }
 
 
 
