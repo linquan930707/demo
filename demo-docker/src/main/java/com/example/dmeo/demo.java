@@ -14,9 +14,12 @@ public class demo {
       String uuid =  UUID.randomUUID().toString().replace("-","");
         System.out.println(uuid);
         System.out.println(uuid.length());
+
     }
 
 
     //1.测试提交的内容
     //2.测试提交的内容
+
+    //4.测试提交的内容
 }
